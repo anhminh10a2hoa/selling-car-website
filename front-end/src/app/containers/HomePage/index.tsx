@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
+import { BookCard } from "../../components/bookCard";
+import { Footer } from "../../components/footer";
 import { Marginer } from "../../components/marginer";
-import { BookCard } from "../../components/bookCard/index";
-import { BookingSteps } from "./bookingSteps";
+import { Navbar } from "../../components/navbar";
 import { AboutUs } from "./aboutUs";
-import { Navbar } from "../../components/navbar/index"
+import { BookingSteps } from "./bookingSteps";
+import { TopCars } from "./topCars";
 import { TopSection } from "./topSection";
 
 const PageContainer = styled.div`
@@ -30,6 +32,9 @@ export function HomePage() {
       <BookingSteps />
       <Marginer direction="vertical" margin="8em" />
       <AboutUs />
+      <Marginer direction="vertical" margin="8em" />
+      <TopCars />
+      <Footer />
     </PageContainer>
-  )
+  );
 }
