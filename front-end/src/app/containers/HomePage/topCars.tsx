@@ -141,12 +141,13 @@ export function TopCars() {
     <Car {...testCar} />,
     <Car {...testCar2} />,
     <Car {...testCar2} />,
+    <Car {...testCar2} />,
   ];
     // (!isEmptyTopCars &&
     //   topCars.map((car) => <Car {...car} thumbnailSrc={car.thumbnailUrl} />)) ||
     
 
-  const numberOfDots = isMobile ? cars.length : Math.ceil(cars.length / 2);
+  const numberOfDots = isMobile ? cars.length : Math.ceil(cars.length - 3 + 1);
 
   return (
     <TopCarsContainer>
