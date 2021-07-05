@@ -9,8 +9,8 @@ import { useMediaQuery } from "react-responsive";
 import { SCREENS } from "../../components/responsive";
 import carService from "../../services/carService";
 import { Dispatch } from "redux";
-// import { GetCars_cars } from "../../services/carService/__generated__/GetCars";
-// import { setTopCars } from "./slice";
+import { GetCars_cars } from "../../services/carService/__generated__/GetCars";
+import { setTopCars } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
 // import { makeSelectTopCars } from "./selectors";
@@ -75,9 +75,9 @@ const LoadingContainer = styled.div`
   `};
 `;
 
-// const actionDispatch = (dispatch: Dispatch) => ({
-//   setTopCars: (cars: GetCars_cars[]) => dispatch(setTopCars(cars)),
-// });
+const actionDispatch = (dispatch: Dispatch) => ({
+  setTopCars: (cars: GetCars_cars[]) => dispatch(setTopCars(cars)),
+});
 
 // const stateSelector = createSelector(makeSelectTopCars, (topCars) => ({
 //   topCars,
@@ -92,7 +92,7 @@ export function TopCars() {
   const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
 
   // const { topCars } = useSelector(stateSelector);
-  // const { setTopCars } = actionDispatch(useDispatch());
+  const { setTopCars } = actionDispatch(useDispatch());
 
   // console.log("Cars", topCars);
 
@@ -103,7 +103,7 @@ export function TopCars() {
     });
 
     console.log("Cars: ", cars);
-    // if (cars) setTopCars(cars);
+    if (cars) setTopCars(cars);
     // setLoading(false);
   };
 
