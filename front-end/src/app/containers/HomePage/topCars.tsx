@@ -7,7 +7,7 @@ import Carousel, { Dots, slidesToShowPlugin } from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
 import { useMediaQuery } from "react-responsive";
 import { SCREENS } from "../../components/responsive";
-// import carService from "../../services/carService";
+import carService from "../../services/carService";
 import { Dispatch } from "redux";
 // import { GetCars_cars } from "../../services/carService/__generated__/GetCars";
 // import { setTopCars } from "./slice";
@@ -96,16 +96,20 @@ export function TopCars() {
 
   // console.log("Cars", topCars);
 
-  // const fetchTopCars = async () => {
-  //   setLoading(true);
-  //   const cars = await carService.getCars().catch((err) => {
-  //     console.log("Error: ", err);
-  //   });
+  const fetchTopCars = async () => {
+    setLoading(true);
+    const cars = await carService.getCars().catch((err) => {
+      console.log("Error: ", err);
+    });
 
-  //   console.log("Cars: ", cars);
-  //   if (cars) setTopCars(cars);
-  //   setLoading(false);
-  // };
+    console.log("Cars: ", cars);
+    // if (cars) setTopCars(cars);
+    // setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchTopCars()
+  }, [])
 
   const testCar: ICar = {
     name: "Audi S3 Car",
