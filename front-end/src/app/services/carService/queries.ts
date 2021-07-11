@@ -10,6 +10,7 @@ export const GET_ALL_CARS= gql`
       monthlyPrice
       gearType
       gas
+      thumbnailUrl
     }
   }
 `
