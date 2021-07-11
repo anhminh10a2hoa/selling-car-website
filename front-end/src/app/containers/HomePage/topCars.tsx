@@ -13,8 +13,8 @@ import { GetCars_cars } from "../../services/carService/__generated__/GetCars";
 import { setTopCars } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "reselect";
-// import { makeSelectTopCars } from "./selectors";
-// import MoonLoader from "react-spinners/MoonLoader";
+import { makeSelectTopCars } from "./selectors";
+import MoonLoader from "react-spinners/MoonLoader";
 
 const TopCarsContainer = styled.div`
   ${tw`
@@ -79,9 +79,9 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setTopCars: (cars: GetCars_cars[]) => dispatch(setTopCars(cars)),
 });
 
-// const stateSelector = createSelector(makeSelectTopCars, (topCars) => ({
-//   topCars,
-// }));
+const stateSelector = createSelector(makeSelectTopCars, (topCars) => ({
+  topCars,
+}));
 
 const wait = (timeout: number) => new Promise((rs) => setTimeout(rs, timeout));
 
@@ -91,10 +91,10 @@ export function TopCars() {
 
   const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
 
-  // const { topCars } = useSelector(stateSelector);
+  const { topCars } = useSelector(stateSelector);
   const { setTopCars } = actionDispatch(useDispatch());
 
-  // console.log("Cars", topCars);
+  console.log("Cars", topCars);
 
   const fetchTopCars = async () => {
     setLoading(true);
@@ -104,66 +104,32 @@ export function TopCars() {
 
     console.log("Cars: ", cars);
     if (cars) setTopCars(cars);
-    // setLoading(false);
+    setLoading(false);
   };
 
   useEffect(() => {
-    fetchTopCars()
-  }, [])
+    fetchTopCars();
+  }, []);
 
-  const testCar: ICar = {
-    name: "Audi S3 Car",
-    mileage: "10k",
-    thumbnailSrc:
-      "https://cdn.jdpower.com/Models/640x480/2017-Audi-S3-PremiumPlus.jpg",
-    dailyPrice: 70,
-    monthlyPrice: 1600,
-    gearType: "Auto",
-    gas: "Petrol",
-  };
+  const isEmptyTopCars = !topCars || topCars.length === 0;
 
-  const testCar2: ICar = {
-    name: "HONDA cITY 5 Seater Car",
-    mileage: "20k",
-    thumbnailSrc:
-      "https://shinewiki.com/wp-content/uploads/2019/11/honda-city.jpg",
-    dailyPrice: 50,
-    monthlyPrice: 1500,
-    gearType: "Auto",
-    gas: "Petrol",
-  };
+  const cars =
+    (!isEmptyTopCars &&
+      topCars.map((car) => <Car {...car} thumbnailSrc={car.thumbnailUrl} />)) ||
+    [];
 
-  // useEffect(() => {
-  //   fetchTopCars();
-  // }, []);
-
-  // const isEmptyTopCars = !topCars || topCars.length === 0;
-
-  const cars = [
-    <Car {...testCar} />,
-    <Car {...testCar} />,
-    <Car {...testCar} />,
-    <Car {...testCar2} />,
-    <Car {...testCar2} />,
-    <Car {...testCar2} />,
-  ];
-    // (!isEmptyTopCars &&
-    //   topCars.map((car) => <Car {...car} thumbnailSrc={car.thumbnailUrl} />)) ||
-    
-
-  const numberOfDots = isMobile ? cars.length : Math.ceil(cars.length - 3 + 1);
+  const numberOfDots = isMobile ? cars.length : Math.ceil(cars.length / 3);
 
   return (
     <TopCarsContainer>
       <Title>Explore Our Top Deals</Title>
       {isLoading && (
         <LoadingContainer>
-          {/* <MoonLoader loading size={20} /> */}
+          <MoonLoader loading size={20} />
         </LoadingContainer>
       )}
-      {/* {isEmptyTopCars && !isLoading && <EmptyCars>No Cars To Show!</EmptyCars>}
-      {!isEmptyTopCars && !isLoading && 
-      ( */}
+      {isEmptyTopCars && !isLoading && <EmptyCars>No Cars To Show!</EmptyCars>}
+      {!isEmptyTopCars && !isLoading && (
         <CarsContainer>
           <Carousel
             value={current}
@@ -203,7 +169,7 @@ export function TopCars() {
           />
           <Dots value={current} onChange={setCurrent} number={numberOfDots} />
         </CarsContainer>
-      {/* )} */}
+      )}
     </TopCarsContainer>
   );
 }

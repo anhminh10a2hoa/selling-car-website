@@ -16,6 +16,7 @@ export interface GetCars_cars {
   monthlyPrice: number;
   gearType: string;
   gas: string;
+  thumbnailUrl: string
 }
 
 export interface GetCars {
